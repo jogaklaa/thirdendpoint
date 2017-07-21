@@ -46,9 +46,11 @@ class Queue(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     date_completed = models.DateTimeField(null=True, blank=True)
 
-    STARTED = 1
-    COMPLETED = 2
+    SAMPLE_NOT_RECEIVED = 1
+    STARTED = 2
+    COMPLETED = 3
     status_choices = (
+        (SAMPLE_NOT_RECEIVED, 'physical sample not received'),
         (STARTED, 'started'),
         (COMPLETED, 'completed')
     )
