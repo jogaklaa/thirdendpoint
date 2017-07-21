@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from ConfigParser import RawConfigParser
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -37,6 +39,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
+    'rest_framework',
+    'thirdendpt',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -73,14 +78,23 @@ WSGI_APPLICATION = 'thirdendpoint.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
+CONFIG_FILEPATH = os.path.join(BASE_DIR, 'thirdendpoint', 'settings.ini')
+config = RawConfigParser()
+config.read(CONFIG_FILEPATH)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': config.get('database', 'DATABASE_ENGINE'),
+        'NAME': config.get('database', 'DATABASE_NAME'),
+        'USER': config.get('database', 'DATABASE_USER'),
+        'PASSWORD': config.get('database', 'DATABASE_PASSWORD'),
+        'HOST': config.get('database', 'DATABASE_HOST'),
+        'PORT': (
+            config.get('database', 'DATABASE_PORT')
+            if config.has_option('database', 'DATABASE_PORT')
+            else ''
+        )
     }
 }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
