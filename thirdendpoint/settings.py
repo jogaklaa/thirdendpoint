@@ -28,7 +28,8 @@ SECRET_KEY = 'xu*ab^($r(x$#8#&n0&ru53eypbxbbgoosnkv(iu_cr#jfte5$'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    u'ec2-13-58-39-199.us-east-2.compute.amazonaws.com' 
+    u'ec2-13-58-39-199.us-east-2.compute.amazonaws.com',
+    u'localhost',
 ]
 
 

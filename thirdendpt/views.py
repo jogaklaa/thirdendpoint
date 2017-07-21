@@ -1,4 +1,5 @@
 from datetime import datetime
+from copy import deepcopy
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
@@ -55,6 +56,15 @@ def get_characterization_metadata():
     }
 
 
+def handle_globus_transmission(characterization_id):
+    # Transfer files associated with a characterization id
+    # to the blue team endpoint.
+    # TODO(Remove hard coding.)
+    # Returns: path to file(s) on foreign endpoint.
+    # stub
+    return '~/dummy'
+
+
 def process_sample(sample, short_info):
     # Create fabrication record.
     filepath = sample.pop('globusPath')
@@ -91,7 +101,7 @@ def process_sample(sample, short_info):
     xrd.save()
 
 
-class FabricationData(APIView):
+class ReceiveFabricationMetadata(APIView):
     def post(self, request, format=None):
         """Receive fabrication data from other lims system."""
         fabrication_data = request.data
@@ -105,4 +115,32 @@ class FabricationData(APIView):
         }
         for sample in fabrication_data:
             process_sample(sample, result)
+        return Response(result)
+
+
+class SendCharacterizationData(APIView):
+    def get(self, request, format=None):
+        """
+        Send xrd data (with fabrication data if available) and transfer xrd file(s)
+        to blue team endpoint via globus.
+
+        The blue team endpoint will be hardcoded for now. 
+
+        The request should include a param called 'message' that contains the 
+        charaterization id (xrd.pk) of interest.
+
+        The response should include the following:
+
+        fabrication metadata
+        characterization data
+        globus destination path
+        """
+        xrd_id = request.query_params.get('message')
+        print(xrd_id)
+        xrd = XRD.objects.get(pk=xrd_id)
+        result = deepcopy(xrd.metadata)
+        if xrd.fabrication:
+            # TODO(Check for key conflicts before merging dictionaries.)
+            result.update(xrd.fabrication.metadata)
+        result['globusPath'] = handle_globus_transmission(xrd_id)
         return Response(result)

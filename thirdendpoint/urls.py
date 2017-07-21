@@ -6,9 +6,14 @@ from thirdendpt import views
 api_patterns = [
     url(
         r'receive_fabrication_metadata/',
-        views.FabricationData.as_view(),
+        views.ReceiveFabricationMetadata.as_view(),
         name='receive_fabrication_metadata'
-    )
+    ),
+    url(
+        r'send_characterization_data/',
+        views.SendCharacterizationData.as_view(),
+        name='send_characterization_data'
+    ),
 ]
 
 urlpatterns = [
