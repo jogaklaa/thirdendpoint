@@ -2,15 +2,15 @@
 <script type="text/javascript">
 $(document).ready(function () {
   $('#button').on('click', function (e) {
-    // let url = '';
-    // $.ajax({
-    //     url: url,
-    //     data: {},
-    //     type: 'GET'
-    // })
-    //     .done(function (data) {
-    //
-    //     });
+    let url = '';
+    $.ajax({
+        url: url,
+        data: {"message": $('#input').val()},
+        type: 'GET'
+    })
+        .done(function (data) {
+          $('#display').html("Returned Data:" + data);
+        });
     });
 });
 
@@ -23,5 +23,10 @@ $(document).ready(function () {
 Welcome!
 </h3>
 <p>
-<button id = "button">Press me!</button>
+  <div id = 'display'>
+Please enter ID: <input id = "input"></input>
+<div class = 'row'>
+<button id = "button">Submit</button>
+</div>
+</div>
 </html>
