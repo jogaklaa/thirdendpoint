@@ -1,3 +1,5 @@
 **/*.ini
 **/*.sqlite3
 **/*.pyc
+
+venv/

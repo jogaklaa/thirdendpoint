@@ -1,10 +1,11 @@
 from datetime import datetime
 from copy import deepcopy
 from rest_framework.response import Response
+from django.shortcuts import render
 from rest_framework import status
 from rest_framework.views import APIView
 from thirdendpt.models import (
-    Fabrication, XRD, Queue 
+    Fabrication, XRD, Queue
 )
 
 
@@ -23,6 +24,8 @@ def create_xrd_shared_location(fabrication):
     # stub
     return ''
 
+def home_page(request):
+    return render(request, 'homepage.html', {}) 
 
 def get_characterization_metadata():
     # stub
@@ -124,9 +127,9 @@ class SendCharacterizationData(APIView):
         Send xrd data (with fabrication data if available) and transfer xrd file(s)
         to blue team endpoint via globus.
 
-        The blue team endpoint will be hardcoded for now. 
+        The blue team endpoint will be hardcoded for now.
 
-        The request should include a param called 'message' that contains the 
+        The request should include a param called 'message' that contains the
         charaterization id (xrd.pk) of interest.
 
         The response should include the following:

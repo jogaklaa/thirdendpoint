@@ -19,4 +19,5 @@ api_patterns = [
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(api_patterns, namespace='api')),
+    url(r'^$', views.home_page), 
 ]
